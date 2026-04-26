@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  backend:
+    image: yourusername/healthcare-backend:latest
+    container_name: backend
+    ports:
+      - "5000:5000"
+
+  frontend:
+    image: yourusername/healthcare-frontend:latest
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

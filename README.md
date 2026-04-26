@@ -1,0 +1,12 @@
+﻿# healthcare-planner-agent-datagami
+The Healthcare Planning Assistant Agent is an AI-based system designed to help users plan healthcare actions based on their symptoms and location. The main goal of this project is to simplify the decision-making process by providing useful medical information, identifying nearby hospitals, and suggesting a structured treatment plan. The system uses a multi-agent approach where different agents work together to solve different parts of the problem.
+
+The system takes two inputs from the user: the disease or symptoms they are experiencing and their location. Once the input is provided, the Planner Agent processes the request and breaks it down into smaller tasks. These tasks are then assigned to specialized agents. The Research Agent gathers relevant medical information about the disease, such as possible causes and recommended specialists. The Hospital Finder Agent uses location data to identify nearby hospitals or clinics. Finally, the Scheduler Agent combines all the collected information and generates a healthcare plan, which includes suggested steps for treatment and follow-up.
+
+The project is implemented using Python and follows a modular structure. The agents are defined in one file, tasks are managed in another, and a central configuration connects all components together. The system uses external tools such as web search for medical information and location-based services for hospital discovery. It also uses an LLM API to support reasoning and decision-making.
+
+To run the project, the user needs to install the required dependencies, set up an environment file with the API key, and execute the main script. After running, the system will prompt the user to enter symptoms and location, and it will then generate a healthcare plan based on the input.
+
+While the system demonstrates the potential of AI in healthcare planning, it has some limitations. It does not provide real-time hospital availability and does not support direct appointment booking. The results also depend on the accuracy of external APIs. However, the system can be improved in the future by integrating real hospital databases, adding appointment scheduling features, and building a user-friendly web or mobile interface.
+
+Overall, this project shows how agent-based AI systems can be used to solve real-world problems by breaking complex tasks into smaller, manageable steps and combining the results into a meaningful output.

@@ -1,0 +1,14 @@
+crewai
+
+langchain-groq
+groq
+litellm
+python-dotenv
+duckduckgo-search
+requests
+beautifulsoup4
+ddgs
+crewai[tools]
+fastapi
+uvicorn
+pymongo
