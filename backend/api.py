@@ -119,18 +119,29 @@ def _dedupe(items: list[str], limit: int = 5) -> list[str]:
     return out
 
 
-def _parse_summary(sections: dict[str, list[str]]) -> dict[str, Any]:
+def _parse_summary(sections: dict[str, list[str]], raw_text: str) -> dict[str, Any]:
     description = " ".join(sections["condition_summary"]).strip() or "No description provided"
+
     symptoms = _dedupe(sections["symptoms"], limit=8)
     treatments = _dedupe(sections["treatments"], limit=8)
+
+    # 🔥 FALLBACK: extract from raw text if empty
+    if not symptoms:
+        symptom_matches = re.findall(r"(fever|headache|cough|pain|nausea|fatigue)", raw_text.lower())
+        symptoms = list(set([s.capitalize() for s in symptom_matches]))[:5]
+
+    if not treatments:
+        treatment_matches = re.findall(r"(rest|hydration|medication|antibiotic|therapy)", raw_text.lower())
+        treatments = list(set([t.capitalize() for t in treatment_matches]))[:5]
+
     specialist = " ".join(sections["specialist"]).strip() or "General Practitioner"
+
     return {
         "description": description,
-        "symptoms": symptoms,
-        "treatments": treatments,
+        "symptoms": symptoms if symptoms else ["Consult doctor for symptoms"],
+        "treatments": treatments if treatments else ["Consult doctor for treatment"],
         "specialist": specialist,
     }
-
 
 def _parse_hospitals(sections: dict[str, list[str]], fallback_location: str) -> list[dict[str, str]]:
     return [
@@ -429,7 +440,7 @@ def generate_plan(payload: PlanRequest) -> PlanResponse:
         final_text = _run_crew_with_retry(topic, tool_location)
 
         sections = _extract_sections(final_text)
-        summary = _parse_summary(sections)
+        summary = _parse_summary(sections,final_text)
         hospitals = _parse_hospitals(sections, location_label)
         doctors = _parse_doctors(sections)
         hospitals = _attach_doctors_to_hospitals(hospitals, doctors)
